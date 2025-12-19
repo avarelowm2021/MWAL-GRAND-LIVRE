@@ -24,7 +24,7 @@
     async function update() {
       try {
         // À CHANGER avec la vraie URL + endpoint de tes stats une fois réveillé
-        const r = await fetch('https://validateur-luth.onrender.com/stats'); // ou /api ou /
+        const r = await fetch('https://compteur-mwollowm.onrender.com'); // ou /api ou /
         const d = await r.json(); // ou r.text() si c'est pas JSON
         
         document.getElementById('total').textContent = Number(d.total_mwollowm || 0).toFixed(4) + ' MWOLLOWM';
@@ -40,4 +40,5 @@
     setInterval(update, 8000); // toutes les 8 secondes
   </script>
 </body>
+
 </html>
