@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grand Compteur MWOLLOWM (MWAL)</title>
+  <style>
+    body { margin:0; height:100vh; background:black; color:#00ff00; font-family:'Courier New',monospace; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+    h1 { font-size:4rem; text-shadow:0 0 20px lime; margin:0; }
+    .big { font-size:7rem; margin:20px; text-shadow:0 0 30px lime; }
+    .info { font-size:2.5rem; margin:10px; }
+    .footer { position:absolute; bottom:20px; font-size:1.5rem; opacity:0.8; }
+  </style>
+</head>
+<body>
+  <h1>MWOLLOWM (MWAL)</h1>
+  <div class="big" id="total">Chargement...</div>
+  <div class="info">MWAL minés : <span id="mwal">0</span></div>
+  <div class="info">Mineurs actifs : <span id="actifs">0</span></div>
+  <div class="info">Dernier validateur : <span id="dernier">-</span></div>
+  <div class="footer">Mise à jour : <span id="update">-</span></div>
+
+  <script>
+    async function update() {
+      try {
+        // À CHANGER avec la vraie URL + endpoint de tes stats une fois réveillé
+        const r = await fetch('https://validateur-luth.onrender.com/stats'); // ou /api ou /
+        const d = await r.json(); // ou r.text() si c'est pas JSON
+        
+        document.getElementById('total').textContent = Number(d.total_mwollowm || 0).toFixed(4) + ' MWOLLOWM';
+        document.getElementById('mwal').textContent = Number(d.total_mwal || 0).toLocaleString('fr');
+        document.getElementById('actifs').textContent = d.mineurs_actifs || 0;
+        document.getElementById('dernier').textContent = d.dernier || 'en attente';
+        document.getElementById('update').textContent = new Date().toLocaleTimeString('fr');
+      } catch(e) {
+        document.getElementById('total').textContent = 'En attente des mineurs...';
+      }
+    }
+    update();
+    setInterval(update, 8000); // toutes les 8 secondes
+  </script>
+</body>
+</html>
